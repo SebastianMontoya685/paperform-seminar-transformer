@@ -2,16 +2,20 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-# Build & deploy directly using Google Cloud's gcloud CLI with buildpacks
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: 'gcloud'
+  entrypoint: bash
+  args:
+    - -c
+    - |
+      pip install functions-framework
+      gcloud builds submit --tag gcr.io/$PROJECT_ID/paperform-seminar-transformer .
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   args:
     [
-      'run', 'deploy', 'paperform-seminar-transformer',
-      '--source', '.',
-      '--entry-point', 'process_pubsub_push',
-      '--runtime', 'python311',
+      'gcloud', 'run', 'deploy', 'paperform-seminar-transformer',
+      '--image', 'gcr.io/$PROJECT_ID/paperform-seminar-transformer',
       '--region', 'us-central1',
-      '--project', 'avian-cosmos-458703-g3',
+      '--platform', 'managed',
       '--allow-unauthenticated'
     ]
