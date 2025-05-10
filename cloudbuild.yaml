@@ -2,18 +2,17 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 steps:
-- name: 'gcr.io/buildpacks/builder'
+- name: 'gcr.io/k8s-skaffold/pack'
   args: [
-    'build', 'gcr.io/$PROJECT_ID/paperform-seminar-tranformer',
-    '--builder=gcr.io/buildpacks/builder:v1',
-    '--path=.',
+    'build', 'gcr.io/$PROJECT_ID/paperform-seminar-transform',
+    '--builder', 'gcr.io/buildpacks/builder:v1',
     '--env', 'GOOGLE_FUNCTION_TARGET=process_pubsub_push'
   ]
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   args: [
-    'gcloud', 'run', 'deploy', 'paperform-seminar-tranformer',
-    '--image', 'gcr.io/$PROJECT_ID/paperform-seminar-tranformer',
+    'gcloud', 'run', 'deploy', 'paperform-seminar-transform',
+    '--image', 'gcr.io/$PROJECT_ID/paperform-seminar-transform',
     '--region', 'us-central1',
     '--platform', 'managed',
     '--allow-unauthenticated'
