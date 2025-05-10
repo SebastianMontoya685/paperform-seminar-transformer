@@ -1,22 +1,14 @@
 steps:
-# Step 1: Build your function with Buildpacks and set function target
-- name: 'gcr.io/buildpacks/builder:v1'
-  args: [
-    'pack',
-    'build',
-    'gcr.io/$PROJECT_ID/paperform-seminar-transformer',
-    '--path', '.',
-    '--builder', 'gcr.io/buildpacks/builder:v1',
-    '--env', 'GOOGLE_FUNCTION_TARGET=process_pubsub_push',
-    '--env', 'GOOGLE_FUNCTION_SIGNATURE_TYPE=http'
-  ]
-
-# Step 2: Deploy it to Cloud Run
+# Build & deploy directly using Google Cloud's gcloud CLI with buildpacks
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  args: [
-    'gcloud', 'run', 'deploy', 'paperform-seminar-transformer',
-    '--image', 'gcr.io/$PROJECT_ID/paperform-seminar-transformer',
-    '--platform', 'managed',
-    '--region', 'us-central1',
-    '--allow-unauthenticated'
-  ]
+  entrypoint: 'gcloud'
+  args:
+    [
+      'run', 'deploy', 'paperform-seminar-transformer',
+      '--source', '.',
+      '--entry-point', 'process_pubsub_push',
+      '--runtime', 'python311',
+      '--region', 'us-central1',
+      '--project', 'avian-cosmos-458703-g3',
+      '--allow-unauthenticated'
+    ]
