@@ -1,4 +1,4 @@
-import os
+# import os
 import json
 import base64
 import requests
@@ -6,7 +6,7 @@ from google.cloud import pubsub_v1
 
 # ─── CONFIG ───
 PROJECT_ID    = "avian-cosmos-458703-g3"
-TOPIC_ID      = "Seminar-List-Automation"
+TOPIC_ID      = "seminar"
 SLACK_WEBHOOK = "https://hooks.slack.com/triggers/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"
 
 # Pub/Sub publisher client (only used by receive_and_publish)
