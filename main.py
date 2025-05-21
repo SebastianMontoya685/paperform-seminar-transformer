@@ -7,7 +7,8 @@ from google.cloud import pubsub_v1
 # ─── CONFIG ───
 PROJECT_ID    = "avian-cosmos-458703-g3"
 TOPIC_ID      = "seminar"
-SLACK_WEBHOOK = "https://hooks.slack.com/triggers/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"
+# "https://hooks.slack.com/triggers/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"
+SLACK_WEBHOOK = "https://webhook.site/ff884063-4c29-4958-82af-3f49380e9977"
 
 # Pub/Sub publisher client (only used by receive_and_publish)
 publisher  = pubsub_v1.PublisherClient()
